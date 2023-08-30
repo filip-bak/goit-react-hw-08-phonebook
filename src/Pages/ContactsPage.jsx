@@ -1,12 +1,12 @@
-import Section from './Section';
-import ContactForm from './ContactForm';
-import Filter from './Filter';
-import ContactList from './ContactList';
+import ContactForm from 'components/ContactForm';
+import ContactList from 'components/ContactList';
+import Filter from 'components/Filter';
+import Section from 'components/Section';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchContacts } from 'redux/contacts/actions';
 
-export const App = () => {
+const ContactPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export const App = () => {
   }, [dispatch]);
 
   return (
-    <div className="wrapper">
+    <main>
       <Section title="Phonebook">
         <ContactForm />
       </Section>
@@ -24,6 +24,8 @@ export const App = () => {
 
         <ContactList />
       </Section>
-    </div>
+    </main>
   );
 };
+
+export default ContactPage;

@@ -9,9 +9,7 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -29,16 +27,19 @@ ol {
 
 /* UTILS */
 .wrapper {
+  margin-inline: 20px;
+  flex: 1;
+}
+/* .wrapper {
   display: grid;
   grid-template-columns: 0.5fr;
   justify-content: center;
   align-items: center;
 
-  max-width: 1280px;
   padding: 30px;
 
   font-size: 1.2rem;
-}
+} */
 .relative {
   position: relative;
 }
