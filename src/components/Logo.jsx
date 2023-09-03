@@ -1,6 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { ThemeProvider, Typography, createTheme } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material';
+import Typography from '@mui/material/Typography';
 
 const theme = createTheme();
 theme.typography.h2 = {
@@ -10,16 +9,11 @@ theme.typography.h2 = {
   },
 };
 
-const Logo = props => {
+const Logo = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Typography
-          variant="h2"
-          color="primary.main"
-          component="span"
-          {...props}
-        >
+        <Typography variant="h2" color="primary.main" component="span">
           Phone
           <Typography
             component="span"
@@ -27,7 +21,6 @@ const Logo = props => {
             color="secondary"
             fontWeight={600}
             textTransform={'capitalize'}
-            {...props}
           >
             book
           </Typography>
@@ -36,7 +29,5 @@ const Logo = props => {
     </>
   );
 };
-
-Logo.propTypes = {};
 
 export default Logo;

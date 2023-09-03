@@ -1,6 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Paper } from '@mui/material';
+import PropTypes from 'prop-types';
 
 export const PaperStyles = {
   display: 'flex',
@@ -9,8 +8,9 @@ export const PaperStyles = {
   alignItems: 'center',
   gap: '2rem',
   maxWidth: '450px',
-  minHeight: '380px',
-  height: '70vh',
+  minHeight: '300px',
+  py: 4,
+  px: 2,
   marginInline: 'auto',
 };
 
@@ -22,6 +22,8 @@ const PaperBox = ({ children }) => {
   );
 };
 
-PaperBox.propTypes = {};
+PaperBox.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default PaperBox;
