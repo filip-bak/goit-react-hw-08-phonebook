@@ -1,84 +1,160 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-
-import styles from './RegisterForm.module.css';
+import { useNavigate } from 'react-router-dom';
 import { register } from 'redux/auth/actions';
 
-export function checkIfEmpty(...data) {
-  return data.every(el => el === '');
-}
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Logo from 'components/Logo';
+import PaperBox from 'components/PaperBox';
 
-const RegisterForm = props => {
-  const [message, setMessage] = useState(null);
+import registerStyles from 'Pages/RegisterPage/RegisterForm/styles';
+import { checkErrorInput } from 'utils/validation';
+import errors from './errors';
 
+const RegisterForm = () => {
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const submitBtn = useRef();
 
-  const error = type => {
-    const obj = {
-      length: 'Password must be longer than 7 characters.',
-      confirm: "Password didn't match",
-    };
-    return obj[type];
-  };
+  const passwordPattern = /^.{8,}$/;
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const fullNamePattern = /^[A-Za-z\s]+$/;
 
   const handleSubmit = e => {
-    const { fullName, email, password, confirmPassword } = e.target.elements;
     e.preventDefault();
-    if (password.value !== confirmPassword.value) {
-      setMessage(error('confirm'));
+    const { fullName, email, password, confirmPassword } = e.target.elements;
+
+    const isValidFullName = fullNamePattern.test(fullName.value);
+    const isValidEmail = emailPattern.test(email.value);
+    const isConfirmPasswordValid = password.value === confirmPassword.value;
+    const isValidPassword =
+      passwordPattern.test(password.value) && isConfirmPasswordValid;
+
+    // Form Validation
+    setErrorMessage('');
+
+    if (!isValidFullName) {
+      if (fullName.value === '') {
+        setErrorMessage(errors.name.required);
+        return;
+      }
+      setErrorMessage(errors.name.invalid);
       return;
     }
-    if (password.value.length <= 7) {
-      setMessage(error('length'));
+    if (!isValidEmail) {
+      if (email.value === '') {
+        setErrorMessage(errors.email.required);
+        return;
+      }
+      setErrorMessage(errors.email.invalid);
       return;
-    } else {
-      setMessage('');
     }
-    if (checkIfEmpty(fullName, email, password, confirmPassword)) {
+    if (!isValidPassword) {
+      if (password.value === '') {
+        setErrorMessage(errors.password.required);
+        return;
+      }
+      if (!isConfirmPasswordValid) {
+        setErrorMessage(errors.password.confirm);
+        return;
+      }
+      setErrorMessage(errors.password.length);
       return;
     }
+
+    // Form Backend
     const registerData = {
       name: fullName.value,
       email: email.value,
       password: password.value,
     };
-    console.log(registerData);
+
     dispatch(register(registerData));
+
+    e.target.reset();
+    navigate('/');
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.wrapper}>
-      <label className={styles.label}>
-        Imie i Nazwisko
-        <input className={styles.input} name="fullName" type="text" />
-      </label>
-      <label className={styles.label}>
-        Email
-        <input className={styles.input} name="email" type="email" />
-      </label>
-      <label className={styles.label}>
-        Password
-        <input className={styles.input} name="password" type="password" />
-        {message ? <p className={styles.error}>{message}</p> : null}
-      </label>
-      <label className={styles.label}>
-        Confirm Password
-        <input
-          className={styles.input}
-          name="confirmPassword"
-          type="password"
+    <Box
+      component={'form'}
+      noValidate
+      onSubmit={handleSubmit}
+      autoComplete="off"
+    >
+      <PaperBox>
+        <Logo />
+        <TextField
+          sx={registerStyles.input}
+          name="fullName"
+          type="name"
+          label="Full name"
+          variant="standard"
+          error={checkErrorInput(errorMessage, errors.name)}
+          FormHelperTextProps={{
+            sx: registerStyles.helperText,
+          }}
+          helperText={
+            checkErrorInput(errorMessage, errors.name) && errorMessage
+          }
         />
-        {message ? <p className={styles.error}>{message}</p> : null}
-      </label>
-
-      <button ref={submitBtn} className={styles.btn} type="submit">
-        Register
-      </button>
-    </form>
+        <TextField
+          sx={registerStyles.input}
+          name="email"
+          type="email"
+          label="Email"
+          variant="standard"
+          error={checkErrorInput(errorMessage, errors.email)}
+          FormHelperTextProps={{
+            sx: registerStyles.helperText,
+          }}
+          helperText={
+            checkErrorInput(errorMessage, errors.email) && errorMessage
+          }
+        />
+        <TextField
+          sx={registerStyles.input}
+          label="Password"
+          name="password"
+          variant="standard"
+          type="password"
+          error={checkErrorInput(errorMessage, errors.password)}
+          FormHelperTextProps={{
+            sx: registerStyles.helperPasswordText,
+          }}
+          helperText={
+            checkErrorInput(errorMessage, errors.password) && errorMessage
+          }
+        />
+        <TextField
+          sx={registerStyles.input}
+          label="Confirm password"
+          name="confirmPassword"
+          variant="standard"
+          type="password"
+          error={checkErrorInput(errorMessage, errors.password)}
+          FormHelperTextProps={{
+            sx: registerStyles.helperPasswordText,
+          }}
+          helperText={
+            checkErrorInput(errorMessage, errors.password) && errorMessage
+          }
+        />
+        <Button
+          type="submit"
+          sx={registerStyles.btn}
+          size="large"
+          variant="contained"
+          disableElevation
+        >
+          Register
+        </Button>
+      </PaperBox>
+    </Box>
   );
 };
-
-RegisterForm.propTypes = {};
 
 export default RegisterForm;

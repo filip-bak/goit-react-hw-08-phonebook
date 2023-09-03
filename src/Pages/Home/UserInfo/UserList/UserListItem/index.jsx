@@ -1,6 +1,7 @@
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { PropTypes } from 'prop-types';
 
 const UserListItem = ({ divider = false, icon: Icon, label }) => {
   const userInfoProps = {
@@ -11,10 +12,7 @@ const UserListItem = ({ divider = false, icon: Icon, label }) => {
 
   return (
     <ListItem divider={divider}>
-      <ListItemIcon>
-        {Icon}
-        {/* <AccountCircleIcon color="primary" fontSize="large" /> */}
-      </ListItemIcon>
+      <ListItemIcon>{Icon}</ListItemIcon>
       <ListItemText
         primary={label}
         primaryTypographyProps={userInfoProps}
@@ -23,7 +21,10 @@ const UserListItem = ({ divider = false, icon: Icon, label }) => {
     </ListItem>
   );
 };
-
-UserListItem.propTypes = {};
+UserListItem.propTypes = {
+  divider: PropTypes.bool,
+  icon: PropTypes.element,
+  label: PropTypes.string,
+};
 
 export default UserListItem;

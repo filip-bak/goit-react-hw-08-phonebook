@@ -1,10 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import NavigationBar from './NavigationBar';
-import { Box } from '@mui/material';
-
-const boxStyles = { display: { xs: 'flex', sm: 'block' } };
 
 const SharedLayout = () => {
   return (
@@ -18,7 +14,5 @@ const SharedLayout = () => {
     </Box>
   );
 };
-
-SharedLayout.propTypes = {};
 
 export default SharedLayout;

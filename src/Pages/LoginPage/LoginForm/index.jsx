@@ -1,13 +1,13 @@
-import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import Logo from 'components/Logo';
 import PaperBox from 'components/PaperBox';
 
 import { useDispatch } from 'react-redux';
 import { login } from 'redux/auth/actions';
 
-import styles from './styles';
+import loginStyles from './styles';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const LoginForm = () => {
       <PaperBox>
         <Logo />
         <TextField
-          sx={styles.input}
+          sx={loginStyles.input}
           name="email"
           type="email"
           label="Email"
@@ -39,16 +39,17 @@ const LoginForm = () => {
           required
         />
         <TextField
-          sx={{ width: '60%' }}
+          sx={loginStyles.input}
           label="Password"
           name="password"
           variant="standard"
           type="password"
           required
         />
+
         <Button
           type="submit"
-          sx={styles.btn}
+          sx={loginStyles.btn}
           size="large"
           variant="contained"
           disableElevation

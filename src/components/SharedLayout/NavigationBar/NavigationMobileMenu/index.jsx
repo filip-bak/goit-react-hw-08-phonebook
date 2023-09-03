@@ -1,8 +1,9 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import { Button, Drawer } from '@mui/material';
 import React from 'react';
+import { PropTypes } from 'prop-types';
 
-const NavigationMobileMenu = ({ tabValue, handleChange, children }) => {
+const NavigationMobileMenu = ({ children }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const toggleDrawer = event => {
@@ -17,7 +18,11 @@ const NavigationMobileMenu = ({ tabValue, handleChange, children }) => {
 
   return (
     <>
-      <Button variant="text" sx={{ height: '48px' }} onClick={toggleDrawer}>
+      <Button
+        variant="text"
+        sx={{ height: '48px', ml: 2.5 }}
+        onClick={toggleDrawer}
+      >
         <MenuIcon fontSize="large" />
       </Button>
       <Drawer anchor="left" open={isOpen} onClose={toggleDrawer}>
@@ -25,6 +30,10 @@ const NavigationMobileMenu = ({ tabValue, handleChange, children }) => {
       </Drawer>
     </>
   );
+};
+
+NavigationMobileMenu.propTypes = {
+  children: PropTypes.node,
 };
 
 export default NavigationMobileMenu;
