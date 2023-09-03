@@ -1,4 +1,4 @@
-const styles = {
+const loginStyles = {
   input: {
     width: 3 / 5,
   },
@@ -6,4 +6,4 @@ const styles = {
     marginTop: 2,
   },
 };
-export default styles;
+export default loginStyles;
