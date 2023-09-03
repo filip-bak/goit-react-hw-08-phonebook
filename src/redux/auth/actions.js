@@ -19,7 +19,7 @@ export const register = createAsyncThunk(
       setToken(res.data.token);
       return res.data;
     } catch (err) {
-      return thunkApi.rejectWithValue(err.message);
+      return thunkApi.rejectWithValue('registerError');
     }
   }
 );
@@ -31,7 +31,7 @@ export const login = createAsyncThunk(
       setToken(res.data.token);
       return res.data;
     } catch (err) {
-      return thunkApi.rejectWithValue(err.message);
+      return thunkApi.rejectWithValue('loginError');
     }
   }
 );

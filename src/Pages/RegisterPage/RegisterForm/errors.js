@@ -6,6 +6,7 @@ const errors = {
   email: {
     required: 'Email is required',
     invalid: 'Invalid email',
+    exists: 'This email already exists',
   },
   password: {
     required: 'Password is required',

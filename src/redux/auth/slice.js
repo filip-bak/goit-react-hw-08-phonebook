@@ -6,21 +6,39 @@ const initialState = {
   token: null,
   isLoggedIn: false,
   isRefreshing: false,
+  isError: null,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
+  reducers: {
+    resetError: state => {
+      state.isError = null;
+    },
+  },
   extraReducers: {
+    [register.pending]: state => {
+      state.isError = null;
+    },
     [register.fulfilled]: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isLoggedIn = true;
     },
+    [register.rejected]: (state, action) => {
+      state.isError = action.payload;
+    },
+    [login.pending]: state => {
+      state.isError = null;
+    },
     [login.fulfilled]: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isLoggedIn = true;
+    },
+    [login.rejected]: (state, action) => {
+      state.isError = action.payload;
     },
     [logout.fulfilled]: state => {
       state.user = { name: null, email: null };
@@ -41,4 +59,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { resetError } = authSlice.actions;
 export const authReducer = authSlice.reducer;

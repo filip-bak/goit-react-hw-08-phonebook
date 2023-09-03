@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { register } from 'redux/auth/actions';
 
 import Box from '@mui/material/Box';
@@ -10,18 +9,31 @@ import Logo from 'components/Logo';
 import PaperBox from 'components/PaperBox';
 
 import registerStyles from 'Pages/RegisterPage/RegisterForm/styles';
+import { useAuthUser } from 'hooks/useAuthUser';
+import { resetError } from 'redux/auth/slice';
 import { checkErrorInput } from 'utils/validation';
 import errors from './errors';
 
 const RegisterForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { isError } = useAuthUser();
 
   const passwordPattern = /^.{8,}$/;
   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   const fullNamePattern = /^[A-Za-z\s]+$/;
+  const isEmailExists = isError === 'registerError';
+
+  useEffect(() => {
+    if (isEmailExists) {
+      setErrorMessage(errors.email.exists);
+      return () => {
+        dispatch(resetError());
+      };
+    }
+  }, [isEmailExists, dispatch]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -75,7 +87,6 @@ const RegisterForm = () => {
     dispatch(register(registerData));
 
     e.target.reset();
-    navigate('/');
   };
 
   return (
